@@ -8817,6 +8817,160 @@
             background-position: center;
         }
         /* ▲▲▲ 新增CSS结束 ▲▲▲ */
+        /* ▼▼▼ 【全新】真实语音录制与播放功能样式 ▼▼▼ */
+
+        /* 1. 录制弹窗中的状态文本 */
+        #recording-status.recording {
+            color: #ff3b30; /* 录制时显示为红色 */
+            animation: recording-pulse 1.5s infinite;
+        }
+        @keyframes recording-pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        /* 2. 真实语音消息气泡的播放器容器 */
+        .real-voice-player {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 180px; /* 给一个合适的固定宽度 */
+        }
+        .message-bubble.user .real-voice-player {
+            background-color: #dcf8c6; /* 用户气泡用绿色 */
+            color: #333;
+        }
+        .message-bubble.ai .real-voice-player {
+            background-color: #ffffff; /* AI气泡用白色 */
+            color: #333;
+        }
+
+        /* 3. 播放/暂停图标 */
+        .real-voice-player .play-pause-icon {
+            width: 24px;
+            height: 24px;
+            flex-shrink: 0;
+            fill: currentColor;
+        }
+
+        /* 4. 进度条 */
+        .real-voice-player .progress-bar-wrapper {
+            flex-grow: 1;
+            height: 4px;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+        }
+        .real-voice-player .progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+        .message-bubble.user .progress-fill {
+            background-color: #34b7f1;
+        }
+
+        /* 5. 时长显示 */
+        .real-voice-player .duration {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        /* 6. 隐藏原生的audio标签，我们只用它来播放 */
+        .real-voice-player audio {
+            display: none;
+        }
+        /* ▲▲▲ 新增CSS结束 ▲▲▲ */
+        /* ▼▼▼ 【全新】电视机App与影集功能样式 ▼▼▼ */
+
+        /* 1. 电视机App主界面 */
+        #television-screen {
+            background-color: #f0f2f5;
+        }
+        #phone-screen.dark-mode #television-screen {
+            background-color: #191919;
+        }
+
+        /* 2. 影集书架样式 (复用阅读器样式) */
+        #movie-shelf {
+            width: 100%;
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            align-content: start;
+        }
+
+        /* 3. 单个影集的封面样式 */
+        .movie-cover {
+            aspect-ratio: 16 / 9; /* 视频封面通常是16:9 */
+            background-color: #333; /* 默认深色背景 */
+            border-radius: 6px;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.2s;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+        }
+        .movie-cover:hover {
+            transform: translateY(-5px);
+        }
+
+        /* 4. 封面上的播放按钮图标 */
+        .movie-cover::after {
+            content: '▶';
+            font-size: 32px;
+            color: white;
+            opacity: 0.8;
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+
+        /* 5. 影集标题样式 */
+        .movie-title-wrapper {
+            text-align: center;
+            margin-top: -15px; /* 让标题稍微上移，与封面重叠一点点 */
+        }
+        .movie-title {
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-primary);
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            padding: 3px 8px;
+            border-radius: 10px;
+            display: inline-block;
+            max-width: 90%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        #phone-screen.dark-mode .movie-title {
+             background-color: rgba(28, 28, 30, 0.8);
+        }
+        
+        /* 6. 影集置顶图钉的样式 (复用阅读器样式) */
+        .movie-pin-icon {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            font-size: 18px;
+            opacity: 0.8;
+            text-shadow: 0 0 5px black;
+        }
+        /* ▲▲▲ 新增CSS结束 ▲▲▲ */
 
     </style>
 </head>
@@ -8907,6 +9061,13 @@
                                 <span class="label">阅读器</span>
                             </div>
                             <!-- 未来可以在这里添加更多App -->
+                        <!-- ▼▼▼ 在这里粘贴新的电视机App图标 ▼▼▼ -->
+                        <div class="desktop-app-icon" onclick="openTelevision()">
+                            <div class="icon-bg-desktop"><img id="icon-img-television" src="https://i.postimg.cc/135z3N0R/IMG-7301.jpg" alt="电视机"></div>
+                            <span class="label">电视机</span>
+                        </div>
+                        <!-- ▲▲▲ 粘贴结束 ▲▲▲ -->
+
                         </div>
                     </div>
                 </div>
@@ -9361,6 +9522,11 @@
                     <label for="model-select">模型</label>
                     <select id="model-select"></select>
                 </div>
+                <div class="form-group">
+                    <label for="whisper-model-input">语音识别模型 (Whisper)</label>
+                    <input type="text" id="whisper-model-input" placeholder="例如: whisper-1 或您的代理名称">
+                </div>
+
                 <button class="form-button" id="fetch-models-btn">拉取主模型</button>
                 <!-- 副API设置 -->
                 <hr style="margin: 30px 0; opacity: 0.3;">
@@ -9749,6 +9915,15 @@
                                 <polygon points="2 19 11 12 2 5 2 19"></polygon>
                             </svg>
                         </button>
+                    <button id="record-voice-btn" class="chat-action-icon-btn action-button" title="发送真实语音">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                        </svg>
+                    </button>
+
                         <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
                     <button id="show-announcement-board-btn" class="chat-action-icon-btn action-button" title="群公告板" style="display: none;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
@@ -11268,6 +11443,12 @@
         let activeMessageTimestamp = null;
         let activeTransferTimestamp = null; // <-- 确保这行在这里，并且只有一行
         let tempLocalIcons = {}; // 用于暂存本地上传的图标文件
+        let mediaRecorder;
+        let audioChunks = [];
+        let isRecording = false;
+        let recordingStartTime;
+        let recordingTimerInterval;
+
         // ▼▼▼ 在下方粘贴新变量 ▼▼▼
         let lastRawAiResponse = ''; // 用于存储AI上一轮的原始响应字符串
         let lastResponseTimestamps = []; // 用于存储上一轮响应生成的消息的时间戳
@@ -11619,13 +11800,16 @@ const DEFAULT_NOTIFICATION_SOUND = 'https://www.myinstants.com/media/sounds/noti
         const DEFAULT_APP_ICONS = {
             'world-book': 'https://i.postimg.cc/HWf1JKzn/IMG-6435.jpg',
             'qq': 'https://i.postimg.cc/MTC3Tkw8/IMG-6436.jpg',
-            // ▼▼▼ 在这里添加新的一行 ▼▼▼
             'renderer': 'https://s3plus.meituan.net/opapisdk/op_ticket_885190757_1756312261242_qdqqd_g0eriz.jpeg',
-            // ▲▲▲ 添加结束 ▲▲▲
             'api-settings': 'https://i.postimg.cc/MK8rJ8t7/IMG-6438.jpg',
             'wallpaper': 'https://i.postimg.cc/T1j03pQr/IMG-6440.jpg',
-            'font': 'https://i.postimg.cc/pXxk1JXk/IMG-6442.jpg'
+            'font': 'https://i.postimg.cc/pXxk1JXk/IMG-6442.jpg',
+            'char-phone': 'https://i.postimg.cc/pXj9h20L/IMG-7275.jpg',
+            'reader': 'https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/64/73/a4/6473a453-8334-05a8-2179-881ac7434327/AppIcon-0-0-1x_U007emarketing-0-0-0-10-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/230x0w.webp',
+            'television': 'https://i.postimg.cc/135z3N0R/IMG-7301.jpg' // <-- 新增的电视机图标
         };
+
+
         // ▲▲▲ 替换结束 ▲▲▲
         let repostTargetId = null; // 用于存储当前要转发的动态ID
                 const STICKER_REGEX = /^(https:\/\/i\.postimg\.cc\/.+|https:\/\/files\.catbox\.moe\/.+|data:image)/;
@@ -12323,7 +12507,10 @@ const DEFAULT_NOTIFICATION_SOUND = 'https://www.myinstants.com/media/sounds/noti
             appearancePresets: '++id, name, type',
             // 【【【核心新增】】】
             stickerCategories: '++id, name', // 新增的表情分类表
-            readerBooks: '++id, title, isPinned, coReadingSettings, coReadingHistories'
+            readerBooks: '++id, title, isPinned, coReadingSettings, coReadingHistories',
+            // ▼▼▼ 在这里添加新的电影表 ▼▼▼
+            movies: '++id, title, isPinned'
+            // ▲▲▲ 添加结束 ▲▲▲
  // <-- 【核心新增】在这里添加了新的书籍表
         }).upgrade(tx => {
             // 这个升级函数会自动处理数据迁移
@@ -13898,7 +14085,8 @@ async function loadAllDataFromDB() {
         await db.memories.bulkPut(memoriesToUpdate);
     }
 
-    state.apiConfig = apiConfig || { id: 'main', proxyUrl: '', apiKey: '', model: '', secondaryProxyUrl: '', secondaryApiKey: '', secondaryModel: '' };
+    state.apiConfig = apiConfig || { id: 'main', proxyUrl: '', apiKey: '', model: '', secondaryProxyUrl: '', secondaryApiKey: '', secondaryModel: '', whisperModel: '' };
+
 // ▼▼▼ 【请用这个 V2 版本】替换旧的 state.globalSettings 初始化代码 ▼▼▼
 state.globalSettings = globalSettings || { 
     id: 'main', 
@@ -14199,6 +14387,7 @@ if (!state.globalSettings.widgetData) {
             // 1. 渲染当前配置到输入框
             document.getElementById('proxy-url').value = state.apiConfig.proxyUrl || ''; 
             document.getElementById('api-key').value = state.apiConfig.apiKey || ''; 
+            document.getElementById('whisper-model-input').value = state.apiConfig.whisperModel || '';
             document.getElementById('secondary-proxy-url').value = state.apiConfig.secondaryProxyUrl || '';
             document.getElementById('secondary-api-key').value = state.apiConfig.secondaryApiKey || '';
             document.getElementById('background-activity-switch').checked = state.globalSettings.enableBackgroundActivity || false;
@@ -15351,9 +15540,19 @@ if (!state.globalSettings.widgetData) {
             if (typeof rawContent === 'string' && rawContent.trim().startsWith('<') && rawContent.trim().endsWith('>')) {
                 contentHtml = rawContent;
                 bubble.classList.add('is-raw-html'); 
-            } else if (msg.type === 'offline_text' || msg.type === 'share_link' || msg.type === 'share_card' || msg.type === 'location_share' || msg.type === 'ai_image' || msg.type === 'user_photo' || msg.type === 'voice_message' || msg.type === 'transfer' || msg.type === 'waimai_request' || msg.type === 'red_packet' || msg.type === 'poll' || msg.type === 'gift') {
-                // (这部分是您已有的所有卡片渲染逻辑，保持不变)
-                if (msg.type === 'offline_text') {
+        } else if (msg.type === 'offline_text' || msg.type === 'share_link' || msg.type === 'share_card' || msg.type === 'location_share' || msg.type === 'ai_image' || msg.type === 'user_photo' || msg.type === 'voice_message' || msg.type === 'transfer' || msg.type === 'waimai_request' || msg.type === 'red_packet' || msg.type === 'poll' || msg.type === 'gift' || msg.type === 'real_voice_message') { // <--- 在这里加入了新的类型
+            // (这里是所有卡片消息的渲染逻辑)
+            if (msg.type === 'real_voice_message') {
+                bubble.classList.add('is-voice-message', 'is-card-like'); // 复用样式
+                contentHtml = `
+                    <div class="real-voice-player">
+                        <audio src="${msg.audioSrc}"></audio>
+                        <svg class="play-pause-icon" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                        <div class="progress-bar-wrapper"><div class="progress-fill"></div></div>
+                        <span class="duration">${Math.round(msg.duration || 0)}s</span>
+                    </div>
+                `;
+            } else if (msg.type === 'offline_text') {
                     let dialogueText = msg.dialogue || '';
                     if (dialogueText && !dialogueText.startsWith('「') && !dialogueText.endsWith('」')) {
                         dialogueText = `「${parseMarkdown(dialogueText)}」`;
@@ -16969,6 +17168,10 @@ if (lastUserMessage &&
                                 }
                             }
                             continue;
+                    case 'real_voice_message':
+                        aiMessage = { ...baseMessage, ...msgData };
+                        break;
+
                         case 'change_user_nickname':
                             if (!chat.isGroup && msgData.new_name) {
                                 const newNickname = msgData.new_name.trim();
@@ -23113,30 +23316,58 @@ async function endVideoCall() {
 
 
         /**
-         * 导入本地书籍文件
+         * 【全新 V2.0 | 支持多格式 & 原始数据】导入本地书籍文件
          */
         async function handleBookImport(event) {
             const files = event.target.files;
             if (!files.length) return;
             
             let importCount = 0;
+            let failedFiles = [];
+
             for (const file of files) {
                 try {
-                    const title = file.name.replace(/\.txt$/i, ''); // 去掉.txt后缀作为书名
-                    const content = await file.text();
-                    await db.readerBooks.add({ title, content, scrollPosition: 0 });
+                    const title = file.name.replace(/\.[^/.]+$/, '');
+                    
+                    // ▼▼▼ 核心修改 1：不再直接读取为文本，而是先读取为二进制的 ArrayBuffer ▼▼▼
+                    // 这就像是把书原封不动地复印一份，无论什么方言都能存下来
+                    const buffer = await file.arrayBuffer();
+                    
+                    // ▼▼▼ 核心修改 2：创建一个对象，保存文件的原始二进制数据和元信息 ▼▼▼
+                    const originalContent = {
+                        buffer: buffer,
+                        type: file.type,
+                        name: file.name
+                    };
+
+                    // ▼▼▼ 核心修改 3：新建书籍时，同时保存原始数据和默认用 UTF-8 解码后的内容 ▼▼▼
+                    await db.readerBooks.add({ 
+                        title, 
+                        originalContent: originalContent, // 保存原始二进制数据，供“解码”功能使用
+                        content: new TextDecoder().decode(buffer), // 默认用UTF-8解码作为初始内容
+                        scrollPosition: 0 
+                    });
                     importCount++;
                 } catch (e) {
                     console.error(`导入书籍 ${file.name} 失败:`, e);
+                    failedFiles.push(file.name);
                 }
             }
+
             if (importCount > 0) {
                 await renderBookshelf();
-                alert(`成功导入 ${importCount} 本书籍！`);
+                let successMessage = `成功导入 ${importCount} 本书籍！`;
+                if(failedFiles.length > 0) {
+                    successMessage += `\n\n${failedFiles.length} 个文件导入失败: \n- ${failedFiles.join('\n- ')}`;
+                }
+                alert(successMessage);
+            } else if (failedFiles.length > 0) {
+                alert(`所有文件都导入失败了。`);
             }
-            event.target.value = null; // 清空以便下次选择
+            event.target.value = null;
         }
-        
+
+
         /**
          * 打开导出书籍的选择弹窗
          */
@@ -23231,15 +23462,33 @@ async function endVideoCall() {
         document.getElementById('co-reading-settings-btn').addEventListener('click', async () => {
             const book = await db.readerBooks.get(currentReadingBookId);
             if (!book) return;
-            const settings = book.coReadingSettings?.[coReadingState.targetChatId] || { persist: false, contextCount: 1, chatContextCount: 10 };
+            
+            // ▼▼▼ 核心修复：采用更健壮的“默认值合并”逻辑 ▼▼▼
+            // 1. 定义一个包含所有默认值的模板对象
+            const defaultSettings = { 
+                persist: false, 
+                contextCount: 1, 
+                chatContextCount: 0, // 这里的10只在从未保存过时生效一次
+                minimize: false 
+            };
+            // 2. 获取已保存的设置
+            const savedSettings = book.coReadingSettings?.[coReadingState.targetChatId] || {};
+            // 3. 将已保存的设置覆盖在默认值之上，得到最终要显示的设置
+            const settings = { ...defaultSettings, ...savedSettings };
+            // ▲▲▲ 修复结束 ▲▲▲
+
             document.getElementById('co-reading-persist-toggle').checked = settings.persist;
             document.getElementById('co-reading-context-count').value = settings.contextCount;
-            // 【核心新增】
-            document.getElementById('co-reading-chat-context-count').value = settings.chatContextCount ?? 10;
+            
+            // ▼▼▼ 核心修复：现在这里会正确加载您保存的999，而不是10 ▼▼▼
+            document.getElementById('co-reading-chat-context-count').value = settings.chatContextCount;
+            // ▲▲▲ 修复结束 ▲▲▲
+            
             document.getElementById('co-reading-minimize-toggle').checked = settings.minimize || false;
 
             document.getElementById('co-reading-settings-modal').classList.add('visible');
         });
+
 
         // 保存设置时，保存新输入框的值
         document.getElementById('save-co-reading-settings-btn').addEventListener('click', async () => {
@@ -23248,24 +23497,39 @@ async function endVideoCall() {
             if (!book.coReadingSettings) book.coReadingSettings = {};
             if (!book.coReadingSettings[coReadingState.targetChatId]) book.coReadingSettings[coReadingState.targetChatId] = {};
             
-            book.coReadingSettings[coReadingState.targetChatId].persist = document.getElementById('co-reading-persist-toggle').checked;
-            book.coReadingSettings[coReadingState.targetChatId].contextCount = parseInt(document.getElementById('co-reading-context-count').value) || 0;
-            // 【核心新增】
-            book.coReadingSettings[coReadingState.targetChatId].chatContextCount = parseInt(document.getElementById('co-reading-chat-context-count').value) || 10;
+            const currentSettings = book.coReadingSettings[coReadingState.targetChatId];
+
+            currentSettings.persist = document.getElementById('co-reading-persist-toggle').checked;
+            currentSettings.contextCount = parseInt(document.getElementById('co-reading-context-count').value) || 0;
+            
+            // ▼▼▼ 核心修复：完全照搬“书本”的保存逻辑，不再错误地使用 10 作为默认值 ▼▼▼
+            currentSettings.chatContextCount = parseInt(document.getElementById('co-reading-chat-context-count').value) || 0;
+            // ▲▲▲ 修复结束 ▲▲▲
+
+            // ▼▼▼ 额外BUG修复：修复了 `currentSettings` 变量未正确使用的问题 ▼▼▼
             currentSettings.minimize = document.getElementById('co-reading-minimize-toggle').checked;
+            // ▲▲▲ 修复结束 ▲▲▲
 
             await db.readerBooks.put(book);
             document.getElementById('co-reading-settings-modal').classList.remove('visible');
             alert('共读设置已保存！');
+
         });
         // ▲▲▲ 新增JS代码结束 ▲▲▲
+        // ▼▼▼ 【全新 | BUG修复】为共读设置的“取消”按钮绑定关闭事件 ▼▼▼
+        document.getElementById('cancel-co-reading-settings-btn').addEventListener('click', () => {
+             document.getElementById('co-reading-settings-modal').classList.remove('visible');
+        });
+        // ▲▲▲ 修复结束 ▲▲▲
+
         // ▼▼▼ 【全新V5.0 | 最终重构版】App图标自定义功能的全部JS逻辑 ▼▼▼
 
         let currentAppSelectionContext = {
             mode: null, 
             resolve: null,
         };
-        const appLabels = { 'world-book': '世界书', 'qq': 'QQ', 'renderer': '渲染器', 'api-settings': 'API设置', 'wallpaper': '外观设置', 'font': '字体', 'char-phone': 'Cphone', 'reader': '阅读器' };
+        const appLabels = { 'world-book': '世界书', 'qq': 'QQ', 'renderer': '渲染器', 'api-settings': 'API设置', 'wallpaper': '外观设置', 'font': '字体', 'char-phone': 'Cphone', 'reader': '阅读器' , 'television': '电视机' };
+
 
         /**
          * 打开App多选弹窗
@@ -23809,15 +24073,33 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
         document.getElementById('co-reading-settings-btn').addEventListener('click', async () => {
             const book = await db.readerBooks.get(currentReadingBookId);
             if (!book) return;
-            const settings = book.coReadingSettings?.[coReadingState.targetChatId] || { persist: false, contextCount: 1 };
+            
+            // ▼▼▼ 核心修复：采用更健壮的“默认值合并”逻辑 ▼▼▼
+            // 1. 定义一个包含所有默认值的模板对象
+            const defaultSettings = { 
+                persist: false, 
+                contextCount: 1, 
+                chatContextCount: 0, // 这里的10只在从未保存过时生效一次
+                minimize: false 
+            };
+            // 2. 获取已保存的设置
+            const savedSettings = book.coReadingSettings?.[coReadingState.targetChatId] || {};
+            // 3. 将已保存的设置覆盖在默认值之上，得到最终要显示的设置
+            const settings = { ...defaultSettings, ...savedSettings };
+            // ▲▲▲ 修复结束 ▲▲▲
+
             document.getElementById('co-reading-persist-toggle').checked = settings.persist;
             document.getElementById('co-reading-context-count').value = settings.contextCount;
+            
+            // ▼▼▼ 核心修复：现在这里会正确加载您保存的999，而不是10 ▼▼▼
+            document.getElementById('co-reading-chat-context-count').value = settings.chatContextCount;
+            // ▲▲▲ 修复结束 ▲▲▲
+            
+            document.getElementById('co-reading-minimize-toggle').checked = settings.minimize || false;
+
             document.getElementById('co-reading-settings-modal').classList.add('visible');
         });
 
-        document.getElementById('cancel-co-reading-settings-btn').addEventListener('click', () => {
-             document.getElementById('co-reading-settings-modal').classList.remove('visible');
-        });
 
         document.getElementById('save-co-reading-settings-btn').addEventListener('click', async () => {
             const book = await db.readerBooks.get(currentReadingBookId);
@@ -23825,14 +24107,28 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
             if (!book.coReadingSettings) book.coReadingSettings = {};
             if (!book.coReadingSettings[coReadingState.targetChatId]) book.coReadingSettings[coReadingState.targetChatId] = {};
             
-            book.coReadingSettings[coReadingState.targetChatId].persist = document.getElementById('co-reading-persist-toggle').checked;
-            book.coReadingSettings[coReadingState.targetChatId].contextCount = parseInt(document.getElementById('co-reading-context-count').value) || 0;
+            const currentSettings = book.coReadingSettings[coReadingState.targetChatId];
+
+            currentSettings.persist = document.getElementById('co-reading-persist-toggle').checked;
+            currentSettings.contextCount = parseInt(document.getElementById('co-reading-context-count').value) || 0;
             
+            // ▼▼▼ 核心修复：完全照搬“书本”的保存逻辑，不再错误地使用 10 作为默认值 ▼▼▼
+            currentSettings.chatContextCount = parseInt(document.getElementById('co-reading-chat-context-count').value) || 0;
+            // ▲▲▲ 修复结束 ▲▲▲
+
+            // ▼▼▼ 额外BUG修复：修复了 `currentSettings` 变量未正确使用的问题 ▼▼▼
+            currentSettings.minimize = document.getElementById('co-reading-minimize-toggle').checked;
+            // ▲▲▲ 修复结束 ▲▲▲
+
             await db.readerBooks.put(book);
             document.getElementById('co-reading-settings-modal').classList.remove('visible');
             alert('共读设置已保存！');
         });
-        // ▲▲▲ 事件绑定结束 ▲▲▲
+        // ▼▼▼ 【全新 | BUG修复】为共读设置的“取消”按钮绑定关闭事件 ▼▼▼
+        document.getElementById('cancel-co-reading-settings-btn').addEventListener('click', () => {
+             document.getElementById('co-reading-settings-modal').classList.remove('visible');
+        });
+        // ▲▲▲ 修复结束 ▲▲▲
 
 
 
@@ -24015,11 +24311,16 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
             const listEl = document.getElementById('reset-icons-list');
             listEl.innerHTML = '';
         
+            // ▼▼▼ 核心修复就在这里 ▼▼▼
             const appLabels = {
                 'world-book': '世界书', 'qq': 'QQ', 'renderer': '渲染器',
                 'api-settings': 'API设置', 'wallpaper': '外观设置', 
-                'font': '字体', 'char-phone': 'Cphone'
+                'font': '字体', 'char-phone': 'Cphone', 'reader': '阅读器'
             };
+            // ▲▲▲ 修复结束 ▲▲▲
+
+            // ... 后续代码
+
         
             // 遍历所有默认图标，生成列表
             for (const iconId in DEFAULT_APP_ICONS) {
@@ -24387,6 +24688,7 @@ ${coReadingHistory || "(你们还没开始讨论，你可以主动发起话题)"
                 'wallpaper': '外观设置',
                 'font': '字体',
                 'char-phone': 'Cphone',
+                'reader': '阅读器'      // (关键) 添加阅读器
             };
         
             for (const iconId in state.globalSettings.appIcons) {
@@ -26083,7 +26385,7 @@ function updateMusicProgressBar() {
         }
         
         /**
-         * 【全新】消息撤回的核心逻辑
+         * 【全新 | 已修复AI认知BUG】消息撤回的核心逻辑
          * @param {number} timestamp - 要撤回的消息的时间戳
          * @param {boolean} isUserRecall - 是否是用户主动撤回
          */
@@ -26100,7 +26402,6 @@ function updateMusicProgressBar() {
             const recalledData = {
                 originalType: messageToRecall.type || 'text',
                 originalContent: messageToRecall.content,
-                // 保存其他可能存在的原始数据
                 originalMeaning: messageToRecall.meaning,
                 originalQuote: messageToRecall.quote 
             };
@@ -26108,26 +26409,37 @@ function updateMusicProgressBar() {
             messageToRecall.type = 'recalled_message';
             messageToRecall.content = isUserRecall ? '你撤回了一条消息' : '对方撤回了一条消息';
             messageToRecall.recalledData = recalledData;
-            // 清理掉不再需要的旧属性
             delete messageToRecall.meaning;
             delete messageToRecall.quote;
         
-            // 2. 如果是用户撤回，需要给AI发送一条它看不懂内容的隐藏提示
+            // ▼▼▼ 核心修复就在这里 ▼▼▼
+            // 2. 如果是用户撤回，构建一条对AI来说清晰无误的隐藏提示
             if (isUserRecall) {
+                // a. 获取用户在当前聊天中的正确称呼
+                const myNickname = chat.isGroup ? (chat.settings.myNickname || '我') : '我';
+                
+                // b. 构建一条明确指出是“用户”执行了操作的指令
+                const hiddenMessageContent = `[系统提示：${myNickname} 刚刚撤回了一条消息。你可以对此表示疑惑或询问。]`;
+
                 const hiddenMessageForAI = {
                     role: 'system',
-                    content: `[系统提示：用户撤回了一条消息。你不知道内容是什么，只需知道这个事件即可。]`,
+                    content: hiddenMessageContent,
                     timestamp: Date.now(),
                     isHidden: true
                 };
                 chat.history.push(hiddenMessageForAI);
             }
+            // ▲▲▲ 修复结束 ▲▲▲
         
             // 3. 保存到数据库并刷新UI
             await db.chats.put(chat);
             renderChatInterface(state.activeChatId);
-            if(isUserRecall) renderChatList(); // 用户撤回时，最后一条消息变了，需要刷新列表
+            if(isUserRecall) {
+                renderChatList(); // 用户撤回时，最后一条消息变了，需要刷新列表预览
+                triggerAiResponse(); // 【关键】通知AI后，立刻触发一次响应
+            }
         }
+
         
         // ▼▼▼ 【全新】将这些函数粘贴到你的JS功能函数定义区 ▼▼▼
         
@@ -32296,6 +32608,474 @@ function setupCharPlayerControls() {
 }
 /* ▲▲▲ JS代码替换结束 ▲▲▲ */
 
+    // ▼▼▼ 【全新】真实语音功能核心函数 ▼▼▼
+
+    /**
+     * 【总入口】开始录制语音
+     */
+    async function startRecording() {
+        if (isRecording) return;
+
+        try {
+            // 1. 请求麦克风权限
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            isRecording = true;
+            audioChunks = [];
+            
+            // 2. 创建 MediaRecorder 实例
+            mediaRecorder = new MediaRecorder(stream);
+
+            // 3. 监听数据块
+            mediaRecorder.ondataavailable = event => {
+                audioChunks.push(event.data);
+            };
+
+            // 4. 监听录音停止事件
+            mediaRecorder.onstop = async () => {
+                isRecording = false;
+                // 停止并释放麦克风轨道
+                stream.getTracks().forEach(track => track.stop());
+
+                if (audioChunks.length === 0) return;
+
+                // a. 将音频块合并为 Blob
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                audioChunks = [];
+
+                // b. 将 Blob 转换为 Base64 Data URL 以便存储和播放
+                const reader = new FileReader();
+                reader.readAsDataURL(audioBlob);
+                reader.onloadend = async () => {
+                    const base64Audio = reader.result;
+                    const duration = (Date.now() - recordingStartTime) / 1000;
+                    
+                    // c. 创建消息对象
+                    const userMessage = {
+                        role: 'user',
+                        type: 'real_voice_message',
+                        audioSrc: base64Audio,
+                        duration: duration,
+                        timestamp: Date.now()
+                    };
+                    
+                    // d. 发送并转录
+                    await sendAndTranscribeVoiceMessage(userMessage, audioBlob);
+                };
+            };
+            
+            // 5. 开始录音并更新UI
+            mediaRecorder.start();
+            updateRecordingUI(true);
+
+        } catch (err) {
+            console.error("无法访问麦克风:", err);
+            await showCustomAlert("录音失败", "无法访问您的麦克风。请检查浏览器权限设置。");
+            updateRecordingUI(false);
+        }
+    }
+
+    /**
+     * 停止录音
+     */
+    function stopRecording() {
+        if (isRecording && mediaRecorder && mediaRecorder.state === "recording") {
+            mediaRecorder.stop();
+        }
+        updateRecordingUI(false);
+    }
+
+    /**
+     * 更新录音弹窗的UI
+     * @param {boolean} isStarting - 是否开始录音
+     */
+    function updateRecordingUI(isStarting) {
+        const modal = document.getElementById('voice-recording-modal');
+        const statusEl = document.getElementById('recording-status');
+        const timerEl = document.getElementById('recording-timer');
+        
+        if (isStarting) {
+            modal.classList.add('visible');
+            statusEl.textContent = '正在录音...';
+            statusEl.classList.add('recording');
+            recordingStartTime = Date.now();
+            recordingTimerInterval = setInterval(() => {
+                const elapsedSeconds = Math.floor((Date.now() - recordingStartTime) / 1000);
+                const minutes = Math.floor(elapsedSeconds / 60);
+                const seconds = elapsedSeconds % 60;
+                timerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+            }, 1000);
+        } else {
+            modal.classList.remove('visible');
+            statusEl.textContent = '正在请求麦克风权限...';
+            statusEl.classList.remove('recording');
+            clearInterval(recordingTimerInterval);
+            timerEl.textContent = '00:00';
+        }
+    }
+
+    /**
+     * 发送语音消息，并调用API进行转录
+     * @param {object} messageObject - 包含语音数据的消息对象
+     * @param {Blob} audioBlob - 用于发送给API的音频Blob
+     */
+    async function sendAndTranscribeVoiceMessage(messageObject, audioBlob) {
+        if (!state.activeChatId) return;
+        const chat = state.chats[state.activeChatId];
+        
+        // 1. 立刻将语音消息显示在界面上
+        chat.history.push(messageObject);
+        await db.chats.put(chat);
+        appendMessage(messageObject, chat);
+        renderChatList();
+
+        try {
+            // 2. 调用Whisper API进行语音转文字
+            const transcribedText = await transcribeAudioWithWhisper(audioBlob);
+            
+            if (transcribedText) {
+                // 3. 创建一条对用户隐藏的系统消息，将转录结果告知AI
+                const myNickname = chat.isGroup ? (chat.settings.myNickname || '我') : '我';
+                const hiddenMessage = {
+                    role: 'system',
+                    content: `[系统提示：用户 (${myNickname}) 刚刚发送了一条语音消息，语音识别后的内容是：“${transcribedText}”。请你对此作出回应。]`,
+                    timestamp: Date.now(),
+                    isHidden: true
+                };
+                chat.history.push(hiddenMessage);
+                await db.chats.put(chat);
+                
+                // 4. 触发AI响应
+                triggerAiResponse();
+            } else {
+                throw new Error("语音识别返回为空。");
+            }
+        } catch (error) {
+            console.error("语音转文字失败:", error);
+            await showCustomAlert("语音识别失败", `无法将您的语音转换为文字，请检查API配置或网络。\n错误: ${error.message}`);
+        }
+    }
+
+        /**
+         * 【核心修复 | 兼容代理API】调用OpenAI Whisper API进行语音转文字
+         * @param {Blob} audioBlob - 音频文件Blob
+         * @returns {Promise<string>} - 转录后的文本
+         */
+        async function transcribeAudioWithWhisper(audioBlob) {
+            const { proxyUrl, apiKey } = state.apiConfig;
+            if (!proxyUrl || !apiKey || proxyUrl.includes('generativelanguage')) {
+                throw new Error("语音识别功能需要配置有效的、非Gemini的OpenAI兼容API。");
+            }
+
+            // ▼▼▼ 核心修改就在这里 ▼▼▼
+            // 1. 从全局配置中读取用户自定义的语音模型名称
+            const whisperModel = state.apiConfig.whisperModel || 'whisper-1';
+            // 2. 如果用户没有填写，我们就默认使用 whisper-1，以兼容标准API
+            console.log(`正在使用语音识别模型: ${whisperModel}`);
+            // ▲▲▲ 修复结束 ▲▲▲
+        
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'audio.webm');
+            // 3. 将写死的 'whisper-1' 替换为我们刚刚获取的动态模型名称
+            formData.append('model', whisperModel);
+        
+            const response = await fetch(`${proxyUrl}/v1/audio/transcriptions`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${apiKey}`
+                },
+                body: formData
+            });
+        
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Whisper API 错误: ${errorData.error.message}`);
+            }
+        
+            const data = await response.json();
+            return data.text;
+        }
+
+    // ▲▲▲ 新增函数结束 ▲▲▲
+        // ▼▼▼ 【全新】电视机App功能的所有核心JS代码 ▼▼▼
+
+        let currentWatchingMovieId = null; // 用于跟踪当前观看的影片ID
+
+        /**
+         * 【总入口】打开电视机App
+         */
+        async function openTelevision() {
+            await renderMovieShelf();
+            showScreen('television-screen');
+        }
+
+        /**
+         * 渲染影集列表
+         */
+        async function renderMovieShelf() {
+            const shelfEl = document.getElementById('movie-shelf');
+            shelfEl.innerHTML = '';
+            let movies = await db.movies.toArray();
+
+            if (movies.length === 0) {
+                shelfEl.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; color: var(--text-secondary); margin-top: 50px;">影集还是空的，<br>点击右上角“导入”添加你的第一部影片吧！</p>';
+                return;
+            }
+
+            // 置顶的排在前面，然后按ID倒序
+            movies.sort((a, b) => {
+                const pinA = a.isPinned ? 1 : 0;
+                const pinB = b.isPinned ? 1 : 0;
+                if (pinA !== pinB) return pinB - pinA;
+                return b.id - a.id;
+            });
+
+            movies.forEach(movie => {
+                const movieWrapper = document.createElement('div');
+                const movieCover = document.createElement('div');
+                movieCover.className = 'movie-cover';
+                
+                // 异步获取视频封面
+                getMovieCover(movie).then(coverUrl => {
+                    if(coverUrl) movieCover.style.backgroundImage = `url(${coverUrl})`;
+                });
+                
+                const pinIcon = movie.isPinned ? '<span class="movie-pin-icon">📌</span>' : '';
+                movieCover.innerHTML = pinIcon;
+                
+                const titleWrapper = document.createElement('div');
+                titleWrapper.className = 'movie-title-wrapper';
+                titleWrapper.innerHTML = `<span class="movie-title">${movie.title}</span>`;
+                
+                movieWrapper.appendChild(movieCover);
+                movieWrapper.appendChild(titleWrapper);
+
+                movieCover.addEventListener('click', () => openMovie(movie.id));
+                addLongPressListener(movieCover, async () => {
+                     const confirmed = await showCustomConfirm('删除影片', `确定要从影集移除《${movie.title}》吗？`, { confirmButtonClass: 'btn-danger' });
+                     if (confirmed) {
+                         await db.movies.delete(movie.id);
+                         await renderMovieShelf();
+                     }
+                });
+                shelfEl.appendChild(movieWrapper);
+            });
+        }
+        
+        /**
+         * 【辅助】异步获取视频文件的第一帧作为封面
+         */
+        function getMovieCover(movie) {
+            return new Promise(resolve => {
+                const video = document.createElement('video');
+                video.preload = 'metadata';
+                video.onloadedmetadata = () => {
+                    video.currentTime = 1; // 跳转到第1秒
+                };
+                video.onseeked = () => {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = video.videoWidth;
+                    canvas.height = video.videoHeight;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                    resolve(canvas.toDataURL('image/jpeg'));
+                };
+                video.onerror = () => resolve(null);
+                
+                // 将存储的ArrayBuffer转换为Blob URL
+                const blob = new Blob([movie.content.buffer], { type: movie.content.type });
+                video.src = URL.createObjectURL(blob);
+            });
+        }
+
+
+        /**
+         * 打开一个影片进行播放
+         */
+        async function openMovie(movieId) {
+            currentWatchingMovieId = movieId;
+            const movie = await db.movies.get(movieId);
+            if (!movie) return;
+            
+            document.getElementById('movie-viewer-title').textContent = movie.title;
+            
+            const player = document.getElementById('movie-player');
+            const blob = new Blob([movie.content.buffer], { type: movie.content.type });
+            player.src = URL.createObjectURL(blob);
+            
+            showScreen('movie-viewer-screen');
+        }
+
+        /**
+         * 导入本地影片文件
+         */
+        async function handleMovieImport(event) {
+            const files = event.target.files;
+            if (!files.length) return;
+            
+            let importCount = 0;
+            for (const file of files) {
+                try {
+                    const title = file.name.replace(/\.(mp4|mov|webm)$/i, '');
+                    const buffer = await file.arrayBuffer();
+                    const movieContent = { buffer, type: file.type };
+                    await db.movies.add({ title, content: movieContent });
+                    importCount++;
+                } catch (e) {
+                    console.error(`导入影片 ${file.name} 失败:`, e);
+                }
+            }
+            if (importCount > 0) {
+                await renderMovieShelf();
+                alert(`成功导入 ${importCount} 部影片！`);
+            }
+            event.target.value = null;
+        }
+
+        /**
+         * 打开置顶影片的选择模态框
+         */
+        async function openPinMoviesModal() {
+            const modal = document.getElementById('television-pin-modal');
+            const listEl = document.getElementById('television-pin-list');
+            listEl.innerHTML = '';
+
+            const movies = await db.movies.toArray();
+            if (movies.length === 0) {
+                alert("影集里还没有影片，无法进行置顶操作。");
+                return;
+            }
+
+            movies.forEach(movie => {
+                const item = document.createElement('div');
+                item.className = 'clear-posts-item'; // 复用样式
+                if (movie.isPinned) item.classList.add('selected');
+                item.innerHTML = `
+                    <div class="checkbox" data-movie-id="${movie.id}"></div>
+                    <span class="name">${movie.title}</span>
+                `;
+                listEl.appendChild(item);
+            });
+            modal.classList.add('visible');
+        }
+        
+        /**
+         * 确认并保存置顶设置
+         */
+        async function handleConfirmPinMovies() {
+            const selectedItems = document.querySelectorAll('#television-pin-list .clear-posts-item.selected');
+            const pinnedMovieIds = new Set(Array.from(selectedItems).map(item => parseInt(item.querySelector('.checkbox').dataset.movieId)));
+
+            await db.transaction('rw', db.movies, async () => {
+                await db.movies.toCollection().modify({ isPinned: false });
+                if (pinnedMovieIds.size > 0) {
+                    await db.movies.where('id').anyOf(...pinnedMovieIds).modify({ isPinned: true });
+                }
+            });
+            
+            document.getElementById('television-pin-modal').classList.remove('visible');
+            await renderMovieShelf();
+            alert('置顶设置已保存！');
+        }
+        // ▲▲▲ 全新JS代码结束 ▲▲▲
+
+        // ▼▼▼ 【全新】这是新功能“电视机App”的【所有事件监听器】，请粘贴到 init() 函数中 ▼▼▼
+        window.openTelevision = openTelevision; // 暴露给home screen图标的onclick
+        document.getElementById('television-pin-btn').addEventListener('click', openPinMoviesModal);
+        document.getElementById('television-import-btn').addEventListener('click', () => document.getElementById('movie-import-input').click());
+        document.getElementById('movie-import-input').addEventListener('change', handleMovieImport);
+        document.getElementById('movie-viewer-back-btn').addEventListener('click', () => {
+            const player = document.getElementById('movie-player');
+            player.pause(); // 返回时暂停视频
+            player.src = ''; // 释放资源
+            showScreen('television-screen');
+        });
+
+        // 置顶功能事件绑定
+        document.getElementById('cancel-television-pin-btn').addEventListener('click', () => document.getElementById('television-pin-modal').classList.remove('visible'));
+        document.getElementById('confirm-television-pin-btn').addEventListener('click', handleConfirmPinMovies);
+        document.getElementById('television-pin-list').addEventListener('click', (e) => {
+            const item = e.target.closest('.clear-posts-item');
+            if (item) item.classList.toggle('selected');
+        });
+        // ▲▲▲ 新增事件绑定结束 ▲▲▲
+        // ▼▼▼ 【全新】阅读器解码功能核心JS代码 ▼▼▼
+        
+        /**
+         * 【总入口】打开解码模态框
+         */
+        async function openDecoderModal() {
+            if (!currentReadingBookId) return;
+            const book = await db.readerBooks.get(currentReadingBookId);
+            // 如果书籍没有原始二进制数据，则禁用此功能
+            if (!book || !book.originalContent || !book.originalContent.buffer) {
+                alert("这本书是旧版本导入的，不支持重新解码。请重新导入该书籍文件。");
+                return;
+            }
+
+            const modal = document.getElementById('reader-decode-modal');
+            const selectEl = document.getElementById('encoding-select');
+            const previewArea = document.getElementById('decoding-preview-area');
+            
+            // 重置UI
+            selectEl.value = 'UTF-8';
+            previewArea.value = '正在解码...';
+            
+            modal.classList.add('visible');
+
+            // 立即用默认的UTF-8进行一次预览
+            await updateDecodingPreview();
+        }
+
+        /**
+         * 【核心】当用户切换编码格式时，更新预览区的文本
+         */
+        async function updateDecodingPreview() {
+            const selectEl = document.getElementById('encoding-select');
+            const previewArea = document.getElementById('decoding-preview-area');
+            const selectedEncoding = selectEl.value;
+            
+            const book = await db.readerBooks.get(currentReadingBookId);
+            const buffer = book.originalContent.buffer;
+            
+            try {
+                // 使用 TextDecoder API 来进行解码
+                // 第二个参数 { fatal: true } 会在解码失败时抛出错误，而不是显示乱码
+                const decoder = new TextDecoder(selectedEncoding, { fatal: true });
+                const decodedText = decoder.decode(buffer);
+                previewArea.value = decodedText;
+            } catch (e) {
+                previewArea.value = `解码失败！\n\n错误信息: ${e.message}\n\n这通常意味着您选择了错误的编码格式，请尝试其他选项。`;
+                console.error(`使用 ${selectedEncoding} 解码失败:`, e);
+            }
+        }
+        
+        /**
+         * 【核心】用户确认应用新的编码
+         */
+        async function applySelectedEncoding() {
+            const selectEl = document.getElementById('encoding-select');
+            const previewArea = document.getElementById('decoding-preview-area');
+            const selectedEncoding = selectEl.value;
+
+            if (previewArea.value.startsWith('解码失败')) {
+                alert("不能应用一个解码失败的编码格式。");
+                return;
+            }
+            
+            // 1. 将解码后的文本更新到书籍的 content 字段
+            await db.readerBooks.update(currentReadingBookId, {
+                content: previewArea.value
+            });
+            
+            // 2. 实时更新阅读器界面的内容
+            document.getElementById('book-content').textContent = previewArea.value;
+
+            // 3. 关闭弹窗并给出成功提示
+            document.getElementById('reader-decode-modal').classList.remove('visible');
+            await showCustomAlert("成功", `已成功应用 ${selectedEncoding} 编码！`);
+        }
+
+        // ▲▲▲ 新增JS代码结束 ▲▲▲
 
               // ===================================================================
                 // 4. 初始化函数 init()
@@ -32388,6 +33168,51 @@ window.switchToCharHomeScreen = switchToCharHomeScreen;
                     // ==========================================================
                     // --- 各种事件监听器 ---
                     // ==========================================================
+    // ▼▼▼ 【全新】真实语音录制功能事件绑定 ▼▼▼
+    document.getElementById('record-voice-btn').addEventListener('click', startRecording);
+    document.getElementById('stop-recording-btn').addEventListener('click', stopRecording);
+    document.getElementById('cancel-recording-btn').addEventListener('click', () => {
+        if (isRecording && mediaRecorder) {
+            // 取消时不保存数据
+            mediaRecorder.onstop = () => {
+                isRecording = false;
+                mediaRecorder.stream.getTracks().forEach(track => track.stop());
+                audioChunks = [];
+            };
+            mediaRecorder.stop();
+        }
+        updateRecordingUI(false);
+    });
+
+    // 使用事件委托处理所有真实语音播放器的点击
+    document.getElementById('chat-messages').addEventListener('click', (e) => {
+        const playerWrapper = e.target.closest('.real-voice-player');
+        if (!playerWrapper) return;
+
+        const audioEl = playerWrapper.querySelector('audio');
+        const playIcon = playerWrapper.querySelector('.play-pause-icon');
+        const progressFill = playerWrapper.querySelector('.progress-fill');
+
+        if (audioEl.paused) {
+            audioEl.play();
+            playIcon.innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"></path>'; // 暂停图标
+        } else {
+            audioEl.pause();
+            playIcon.innerHTML = '<path d="M8 5v14l11-7z"></path>'; // 播放图标
+        }
+        
+        audioEl.ontimeupdate = () => {
+            const progress = (audioEl.currentTime / audioEl.duration) * 100;
+            progressFill.style.width = `${progress}%`;
+        };
+
+        audioEl.onended = () => {
+            playIcon.innerHTML = '<path d="M8 5v14l11-7z"></path>'; // 恢复播放图标
+            progressFill.style.width = '0%';
+        };
+    });
+    // ▲▲▲ 新增事件绑定结束 ▲▲▲
+
         // ▼▼▼ 在 init() 的事件监听器区域，添加这行新代码 ▼▼▼
         document.getElementById('rules-tabs').addEventListener('click', (e) => {
             if (e.target.classList.contains('rules-tab')) {
@@ -32692,7 +33517,7 @@ function updateChatListItem(chatId) {
             state.apiConfig.proxyUrl = document.getElementById('proxy-url').value.trim();
             state.apiConfig.apiKey = document.getElementById('api-key').value.trim();
             state.apiConfig.model = document.getElementById('model-select').value;
-            
+            state.apiConfig.whisperModel = document.getElementById('whisper-model-input').value.trim();
             // 【核心新增】保存副API
             state.apiConfig.secondaryProxyUrl = document.getElementById('secondary-proxy-url').value.trim();
             state.apiConfig.secondaryApiKey = document.getElementById('secondary-api-key').value.trim();
@@ -36466,6 +37291,14 @@ document.getElementById('regenerate-char-usage-btn').addEventListener('click', h
         document.getElementById('close-char-music-player-btn').addEventListener('click', closeCharMusicPlayer);
 
 
+        // ▼▼▼ 【全新】阅读器解码功能事件监听器 ▼▼▼
+        document.getElementById('reader-decode-btn').addEventListener('click', openDecoderModal);
+        document.getElementById('encoding-select').addEventListener('change', updateDecodingPreview);
+        document.getElementById('cancel-decoding-btn').addEventListener('click', () => {
+            document.getElementById('reader-decode-modal').classList.remove('visible');
+        });
+        document.getElementById('confirm-decoding-btn').addEventListener('click', applySelectedEncoding);
+        // ▲▲▲ 新增事件绑定结束 ▲▲▲
 
                     showScreen('home-screen');
                 }
@@ -36682,7 +37515,8 @@ document.getElementById('regenerate-char-usage-btn').addEventListener('click', h
         <div id="bookshelf" class="list-container">
             <!-- 书籍列表将由JS动态生成在这里 -->
         </div>
-        <input type="file" id="book-import-input" accept=".txt" multiple hidden>
+        <input type="file" id="book-import-input" accept=".txt,.epub,.md,.html,.htm" multiple hidden>
+
     </div>
 
     <!-- ▼▼▼ 【全新V4.0 | 移动端兼容修复版】▼▼▼ -->
@@ -36695,6 +37529,8 @@ document.getElementById('regenerate-char-usage-btn').addEventListener('click', h
             </div>
             <div class="header-actions">
                 <span class="action-btn" id="co-reading-start-btn">共读</span>
+                <span class="action-btn" id="reader-decode-btn">解码</span>
+
                 <!-- ▼▼▼ 【核心修改】将单个按钮替换为一个按钮组 ▼▼▼ -->
                 <div id="reader-edit-controls">
                     <span class="action-btn" id="reader-edit-btn">编辑</span>
@@ -36753,6 +37589,104 @@ document.getElementById('regenerate-char-usage-btn').addEventListener('click', h
         </div>
     </div>
     <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+<!-- ▼▼▼ 【全新】阅读器解码功能模态框 ▼▼▼ -->
+<div id="reader-decode-modal" class="modal">
+    <div class="modal-content" style="height: 75%;">
+        <div class="modal-header">
+            <span>选择文本编码</span>
+        </div>
+        <div class="modal-body" style="display: flex; flex-direction: column; gap: 15px;">
+            <div class="form-group">
+                <label for="encoding-select">选择一种编码格式进行预览：</label>
+                <select id="encoding-select" style="margin-top: 8px;">
+                    <option value="UTF-8">UTF-8 (默认)</option>
+                    <option value="GBK">GBK / GB2312 (简体中文)</option>
+                    <option value="Big5">Big5 (繁体中文)</option>
+                    <option value="Shift_JIS">Shift_JIS (日文)</option>
+                    <option value="ISO-8859-1">ISO-8859-1 (西欧语言)</option>
+                </select>
+            </div>
+            <div class="form-group" style="flex-grow: 1; display: flex; flex-direction: column;">
+                <label>解码预览：</label>
+                <textarea id="decoding-preview-area" readonly style="flex-grow: 1; resize: none; background-color: #f0f2f5; border: 1px solid var(--border-color); border-radius: 8px; padding: 10px;"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="cancel" id="cancel-decoding-btn">取消</button>
+            <button class="save" id="confirm-decoding-btn">应用此编码</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+
+    <!-- ▼▼▼ 【全新】电视机App功能的所有HTML屏幕 ▼▼▼ -->
+    
+    <!-- 1. 电视机App主屏幕 (影集列表) -->
+    <div id="television-screen" class="screen">
+        <div class="header">
+            <span class="back-btn" onclick="showScreen('home-screen')">‹</span>
+            <span>我的影集</span>
+            <div class="header-actions">
+                <span class="action-btn" id="television-pin-btn">置顶</span>
+                <span class="action-btn" id="television-import-btn">导入</span>
+                <span class="action-btn" id="television-export-btn">导出</span>
+            </div>
+        </div>
+        <div id="movie-shelf" class="list-container">
+            <!-- 影集列表将由JS动态生成在这里 -->
+        </div>
+        <input type="file" id="movie-import-input" accept="video/*,.mp4,.mov,.webm" multiple hidden>
+    </div>
+
+    <!-- 2. 视频播放器屏幕 -->
+    <div id="movie-viewer-screen" class="screen">
+        <div class="header">
+            <span class="back-btn" id="movie-viewer-back-btn">‹</span>
+            <div style="flex-grow: 1; text-align: center; overflow: hidden;">
+                <span id="movie-viewer-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: inline-block; max-width: 100%;"></span>
+            </div>
+            <div class="header-actions">
+                <span class="action-btn" id="movie-customize-btn">自定义</span>
+            </div>
+        </div>
+        <!-- 视频播放器容器 -->
+        <div id="movie-content" class="list-container" style="padding:0; background-color: #000; display: flex; align-items: center; justify-content: center;">
+            <video id="movie-player" controls style="width: 100%; height: auto; max-height: 100%;"></video>
+        </div>
+    </div>
+    
+    <!-- 3. 影集导出选择弹窗 (复用阅读器样式) -->
+    <div id="television-export-modal" class="modal">
+        <div class="modal-content" style="height: 70%;">
+            <div class="modal-header">
+                <span>选择要导出的影集</span>
+                <label style="font-size: 14px; font-weight: normal; display: flex; align-items: center; gap: 5px;">
+                    <input type="checkbox" id="select-all-movies-export"> 全选
+                </label>
+            </div>
+            <div class="modal-body" id="television-export-list" style="padding: 0;"></div>
+            <div class="modal-footer">
+                <button class="cancel" id="cancel-television-export-btn">取消</button>
+                <button class="save" id="confirm-television-export-btn">导出选中</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. 影集置顶选择弹窗 (复用阅读器样式) -->
+    <div id="television-pin-modal" class="modal">
+        <div class="modal-content" style="height: 70%;">
+            <div class="modal-header">
+                <span>选择要置顶的影集</span>
+            </div>
+            <div class="modal-body" id="television-pin-list" style="padding: 0;"></div>
+            <div class="modal-footer">
+                <button class="cancel" id="cancel-television-pin-btn">取消</button>
+                <button class="save" id="confirm-television-pin-btn">保存置顶</button>
+            </div>
+        </div>
+    </div>
+    <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+
     <!-- ▼▼▼ 【全新】阅读器自定义模态框 ▼▼▼ -->
     <div id="reader-customizer-modal" class="modal reader-customizer-modal">
         <div class="modal-content" style="height: auto; max-height: 85%;">
@@ -36962,6 +37896,19 @@ document.getElementById('regenerate-char-usage-btn').addEventListener('click', h
     <!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
 
 <audio id="char-audio-player" preload="auto"></audio>
+<!-- ▼▼▼ 【全新】真实语音录制模态框 ▼▼▼ -->
+<div id="voice-recording-modal" class="modal">
+    <div class="modal-content" style="width: 280px; text-align: center; padding: 25px;">
+        <p id="recording-status" style="font-size: 16px; font-weight: 500; color: var(--text-secondary); margin: 0 0 15px 0;">正在请求麦克风权限...</p>
+        <div id="recording-timer" style="font-size: 48px; font-weight: 300; margin-bottom: 25px; color: var(--text-primary);">00:00</div>
+        <div class="modal-footer" style="border-top: none; padding: 0; display: flex; gap: 15px;">
+            <button class="cancel" id="cancel-recording-btn" style="width: 45%;">取消</button>
+            <button class="save" id="stop-recording-btn" style="width: 45%;">发送</button>
+        </div>
+    </div>
+</div>
+<!-- ▲▲▲ 新增HTML结束 ▲▲▲ -->
+
 </body>
 </html>
 
